@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSubtitlesBulkDownload", "OpenSubtitlesBulkDownload\OpenSubtitlesBulkDownload.csproj", "{3EA67A16-88B3-4825-832E-B50B8163563B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSAPIcalls", "OSAPIcalls\OSAPIcalls.csproj", "{495B553D-9A31-46CE-818F-139EF7547649}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHasher", "MovieHasher\MovieHasher.csproj", "{193967E9-50A8-4E8C-A35A-162284900CC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3EA67A16-88B3-4825-832E-B50B8163563B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA67A16-88B3-4825-832E-B50B8163563B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA67A16-88B3-4825-832E-B50B8163563B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{495B553D-9A31-46CE-818F-139EF7547649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{495B553D-9A31-46CE-818F-139EF7547649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{495B553D-9A31-46CE-818F-139EF7547649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{495B553D-9A31-46CE-818F-139EF7547649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{193967E9-50A8-4E8C-A35A-162284900CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193967E9-50A8-4E8C-A35A-162284900CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193967E9-50A8-4E8C-A35A-162284900CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193967E9-50A8-4E8C-A35A-162284900CC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
