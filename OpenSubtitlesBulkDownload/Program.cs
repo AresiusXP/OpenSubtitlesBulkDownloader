@@ -63,7 +63,7 @@ namespace OpenSubtitlesBulkDownload
 					using (GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress))
 					{
 						decompressionStream.CopyTo(decompressedFileStream);
-						Console.WriteLine("Decompressed: {0}", fileToDecompress.Name);
+						Console.WriteLine("Decompressed: {0}", newFileName);
 					}
 				}
 			}
