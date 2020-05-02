@@ -26,7 +26,14 @@ namespace OSAPIcalls
 			//var restResponse = restClient.Get(new RestRequest());
 			var restResponse = restClient.Execute<List<MatchResult>>(new RestRequest(calculatedEndpoint));
 
-			return restResponse.Data[0];
+			if (restResponse.Data.Count == 0)
+			{
+				return new MatchResult() { IsEmpty = true };
+			}
+			else
+			{
+				return restResponse.Data[0];
+			}
 		}
 	}
 
@@ -34,5 +41,7 @@ namespace OSAPIcalls
 	{
 		public string SubFileName { get; set; }
 		public string SubDownloadLink { get; set; }
+		public bool IsEmpty { get; set; } = false;
+
 	}
 }

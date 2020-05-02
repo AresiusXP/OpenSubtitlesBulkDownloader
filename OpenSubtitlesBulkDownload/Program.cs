@@ -17,37 +17,53 @@ namespace OpenSubtitlesBulkDownload
 		static void Main(string[] args)
 		{
 			string assemblyFullName = Application.ExecutablePath;
-			string currentPath = Path.GetDirectoryName(assemblyFullName);
-			Console.WriteLine(currentPath);
-			var movieFiles = Directory.GetFiles(currentPath, "*.mp4");
+			string currentPath;
+			if (args.Length == 0)
+			{
+				currentPath = Path.GetDirectoryName(assemblyFullName);
+			}
+			else
+			{
+				currentPath = args[0];
+			}
+			var movieFiles = Directory.GetFiles(currentPath, "*.*", SearchOption.AllDirectories)
+								.Where(s => s.EndsWith(".mp4") || s.EndsWith(".mkv"));
 
 			foreach (var movieFileFullName in movieFiles)
 			{
 				string movieFileName = Path.GetFileName(movieFileFullName);
 				byte[] movieHashByte = Hasher.ComputeMovieHash(movieFileFullName);
 				string movieHashString = Hasher.ToHexadecimal(movieHashByte);
-				FileInfo movieFileInfo = new FileInfo(movieFileName);
+				FileInfo movieFileInfo = new FileInfo(movieFileFullName);
 				string movieFileSize = movieFileInfo.Length.ToString();
 
-				Console.WriteLine("File: {0} - Hash: {1} - Size (bytes): {2}", movieFileName, movieHashString, movieFileSize);
+				Console.WriteLine("File: {0}", movieFileName);
 				Console.WriteLine("Searching subtitle...");
 
 				OSAPICalls osAPI = new OSAPICalls(movieHashString, movieFileSize, "TemporaryUserAgent");
 				MatchResult searchResult = osAPI.searchMovie();
-				Console.WriteLine("Found subtitle: {0}", searchResult.SubFileName);
-				
-				Console.WriteLine("Downloading...");
-				WebClient webClient = new WebClient();
-				string zipSubtitle = Path.GetFileNameWithoutExtension(movieFileFullName) + ".gz";
-				webClient.DownloadFile(searchResult.SubDownloadLink, zipSubtitle);
-				Console.WriteLine("Downloaded {0}", zipSubtitle);
-				
-				Console.WriteLine("Decompressing...");
-				FileInfo gzFileInfo = new FileInfo(Path.GetFullPath(currentPath + "\\" + zipSubtitle));
-				Decompress(gzFileInfo);
 
-				File.Delete(zipSubtitle);
-				Console.WriteLine("Finished. \n-------");
+				if (!searchResult.IsEmpty)
+				{
+					Console.WriteLine("Found subtitle: {0}", searchResult.SubFileName);
+
+					Console.WriteLine("Downloading...");
+					WebClient webClient = new WebClient();
+					//string zipSubtitle = Path.GetFileNameWithoutExtension(movieFileFullName) + ".gz";
+					string zipSubtitle = movieFileFullName.Remove(movieFileFullName.Length - movieFileInfo.Extension.Length) + ".gz";
+					webClient.DownloadFile(searchResult.SubDownloadLink, zipSubtitle);
+					Console.WriteLine("Downloaded {0}", zipSubtitle);
+					Console.WriteLine("Decompressing...");
+					FileInfo gzFileInfo = new FileInfo(zipSubtitle);
+					Decompress(gzFileInfo);
+					File.Delete(zipSubtitle);
+				}
+				else
+				{
+					Console.WriteLine("No subtitle found for {0}.", movieFileName);
+				}
+
+				Console.WriteLine("-------");
 			}
 		}
 
